@@ -60,7 +60,7 @@ class RemoteDataSourceImpl extends RemoteDatasource {
       var key = List.from(response.data['results'])
           .map((data) => VideoResults.fromJson(data))
           .toList()
-          .where((element) => element.type == 'Teaser')
+          .where((element) => element.type == 'Teaser' || element.type == 'Trailer')
           .first
           .key;
       return key ?? '';

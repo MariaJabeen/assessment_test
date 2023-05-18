@@ -18,9 +18,18 @@ class _WatchTrailerScreenState extends State<WatchTrailerScreen> {
     controller = Get.find<MovieDetailController>();
     Future.delayed(const Duration(seconds: 3));
     controller.videoPlayerController.addListener(() {
-      setState(() {});
+      setState(() {
+        if (controller.videoPlayerController.value.hasError) {
+          print("==========${controller.videoPlayerController.value.errorDescription}");
+        }
+        if (controller.videoPlayerController.value.isInitialized) {
+          controller.videoPlayerHelper.playVideo();
+
+        }
+
+          });
     });
-    // controller.videoPlayerHelper.playVideo();
+
   }
 
   @override
