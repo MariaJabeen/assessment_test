@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/smart_management.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 import '../utils/router/app_routes.dart';
 

@@ -4,7 +4,6 @@ import 'package:assesment_test/src/common_widgets/error_snackbar.dart';
 import 'package:assesment_test/src/features/Movies/usecase/get_movie_detail.dart';
 import 'package:assesment_test/src/features/Movies/usecase/get_video_key.dart';
 import 'package:assesment_test/utils/constants/color_constants.dart';
-import 'package:assesment_test/utils/globals.dart';
 import 'package:assesment_test/utils/router/app_routes.dart';
 import 'package:assesment_test/utils/router/route_handler.dart';
 import 'package:flutter/material.dart';
@@ -67,13 +66,11 @@ class MovieDetailController extends GetxController {
       ErrorSnackbar(message: failure.message).showErrorSnackbar();
       return;
     }
-    await videoPlayerHelper.initializeVideoPlayer(
-        url: '$youtubeAddress${resultEither.getOrElse(() => '')}');
-    videoPlayerController = videoPlayerHelper.getVideoPlayerController();
-    Future.delayed(const Duration(seconds: 3));
+    trailerKey=resultEither.getOrElse(() => '');
 
     navigation.navigate(Routes.watchTrailerScreen);
   }
 
+  late String trailerKey;
   late VideoPlayerController videoPlayerController;
 }

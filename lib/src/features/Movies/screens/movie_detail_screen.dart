@@ -96,7 +96,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                               SizedBox(
                                 height: 15.h,
                               ),
-                              BuildGetTicketsWidget(),
+                              const BuildGetTicketsWidget(),
                               SizedBox(
                                 height: 10.h,
                               ),
@@ -140,7 +140,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           SizedBox(
                             height: 22.h,
                           ),
-                          Divider(),
+                          const Divider(),
                           SizedBox(
                             height: 15.h,
                           ),

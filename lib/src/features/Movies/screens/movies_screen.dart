@@ -47,139 +47,150 @@ class _MoviesScreenState extends State<MoviesScreen> {
               color: ColorConstants.watchBgColor,
               child: Padding(
                 padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                child: Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      controller.isFetchingList.value
-                          ? Expanded(
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircularProgressIndicator(
-                                  color: ColorConstants.navigationBarBg,
-                                ),
-                              ],
-                            ))
-                          : controller.searchingInVisible(
-                                  textEditingController.text)
-                              ? Expanded(
-                                  child: ListView.builder(
-                                      itemCount: controller.moviesList.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          height: 180.h,
-                                          margin: EdgeInsets.only(bottom: 20.h),
-                                          decoration: BoxDecoration(
-                                              color: ColorConstants
-                                                  .navigationBarBg
-                                                  .withOpacity(0.3),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r)),
-                                          child: InkWell(
-                                            onTap: () {
-                                              controller.setSelectedMovie(
-                                                  controller
-                                                      .moviesList[index].id!);
-                                            },
-                                            child: Stack(
-                                              alignment:
-                                                  AlignmentDirectional.center,
-                                              children: [
-                                                CustomCacheNetworkImage(
-                                                  imageUrl:
-                                                      '$imageBaseURl${controller.moviesList[index].posterPath!}',
-                                                  placeHolderColor:
-                                                      ColorConstants
-                                                          .navigationBarBg,
-                                                  boxFit: BoxFit.cover,
-                                                  borderRadius: 10,
-                                                ),
-                                                Positioned(
-                                                    bottom: 20.h,
-                                                    left: 20.h,
-                                                    child: Text(
-                                                        controller
-                                                            .moviesList[index]
-                                                            .title!,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 18.sp,
-                                                            color:
-                                                                Colors.white)))
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                )
-                              : controller.searchingVisible(
-                                      textEditingController.text)
-                                  ? Expanded(
-                                      child: ListView.builder(
-                                          itemCount:
-                                              controller.searchResults.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 20.h),
-                                              child: Row(
+                child: GetBuilder<MoviesScreenController>(builder: (context) {
+                  return Obx(
+                    () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        controller.isFetchingList.value
+                            ? Expanded(
+                                child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    color: ColorConstants.navigationBarBg,
+                                  ),
+                                ],
+                              ))
+                            : controller.searchingInVisible(
+                                    textEditingController.text)
+                                ? Expanded(
+                                    child: ListView.builder(
+                                        itemCount: controller.moviesList.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            height: 180.h,
+                                            margin:
+                                                EdgeInsets.only(bottom: 20.h),
+                                            decoration: BoxDecoration(
+                                                color: ColorConstants
+                                                    .navigationBarBg
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        20.r)),
+                                            child: InkWell(
+                                              onTap: () {
+                                                controller.setSelectedMovie(
+                                                    controller
+                                                        .moviesList[index].id!);
+                                              },
+                                              child: Stack(
+                                                alignment:
+                                                    AlignmentDirectional.center,
                                                 children: [
-                                                  SizedBox(
-                                                    height: 100.h,
-                                                    width: 130.w,
-                                                    child:
-                                                        CustomCacheNetworkImage(
-                                                      imageUrl:
-                                                          '$imageBaseURl${controller.searchResults[index].posterPath!}',
-                                                      placeHolderColor:
-                                                          ColorConstants
-                                                              .navigationBarBg,
-                                                      boxFit: BoxFit.cover,
-                                                      borderRadius: 10,
-                                                    ),
+                                                  CustomCacheNetworkImage(
+                                                    imageUrl:
+                                                        '$imageBaseURl${controller.moviesList[index].posterPath!}',
+                                                    placeHolderColor:
+                                                        ColorConstants
+                                                            .navigationBarBg,
+                                                    boxFit: BoxFit.cover,
+                                                    borderRadius: 10,
                                                   ),
-                                                  SizedBox(
-                                                    width: 20.w,
-                                                  ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                            controller
-                                                                .searchResults[
-                                                                    index]
-                                                                .title!,
-                                                            style: TextStyle(
+                                                  Positioned(
+                                                      bottom: 20.h,
+                                                      left: 20.h,
+                                                      child: Text(
+                                                          controller
+                                                              .moviesList[index]
+                                                              .title!,
+                                                          style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
-                                                              fontSize: 16.sp,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  // Spacer(),
-                                                  SvgPicture.asset(
-                                                      SvgAssetsPaths.optionSvg)
+                                                              fontSize: 18.sp,
+                                                              color: Colors
+                                                                  .white)))
                                                 ],
                                               ),
-                                            );
-                                          }),
-                                    )
-                                  : Text(
-                                      AppStrings.noRecordFound,
-                                      textAlign: TextAlign.center,
-                                    ),
-                    ],
-                  ),
-                ),
+                                            ),
+                                          );
+                                        }),
+                                  )
+                                : controller.searchingVisible(
+                                        textEditingController.text)
+                                    ? Expanded(
+                                        child: ListView.builder(
+                                            itemCount:
+                                                controller.searchResults.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom: 20.h),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    controller.setSelectedMovie(
+                                                        controller.searchResults[index].id!);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 100.h,
+                                                        width: 130.w,
+                                                        child:
+                                                            CustomCacheNetworkImage(
+                                                          imageUrl:
+                                                              '$imageBaseURl${controller.searchResults[index].posterPath!}',
+                                                          placeHolderColor:
+                                                              ColorConstants
+                                                                  .navigationBarBg,
+                                                          boxFit: BoxFit.cover,
+                                                          borderRadius: 10,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 20.w,
+                                                      ),
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                controller
+                                                                    .searchResults[
+                                                                        index]
+                                                                    .title!,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      // Spacer(),
+                                                      SvgPicture.asset(
+                                                          SvgAssetsPaths
+                                                              .optionSvg)
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      )
+                                    : Container(),
+                      ],
+                    ),
+                  );
+                }),
               ),
             ),
           ),

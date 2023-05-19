@@ -1,7 +1,8 @@
 import 'package:assesment_test/src/features/Movies/controller/movie_detail_controller.dart';
+import 'package:assesment_test/utils/router/route_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WatchTrailerScreen extends StatefulWidget {
   const WatchTrailerScreen({Key? key}) : super(key: key);
@@ -12,24 +13,42 @@ class WatchTrailerScreen extends StatefulWidget {
 
 class _WatchTrailerScreenState extends State<WatchTrailerScreen> {
   late MovieDetailController controller;
+  late YoutubePlayerController youtubePlayerController;
+  late Navigation navigation;
   @override
   void initState() {
     super.initState();
     controller = Get.find<MovieDetailController>();
-    Future.delayed(const Duration(seconds: 3));
-    controller.videoPlayerController.addListener(() {
-      setState(() {
-        if (controller.videoPlayerController.value.hasError) {
-          print("==========${controller.videoPlayerController.value.errorDescription}");
-        }
-        if (controller.videoPlayerController.value.isInitialized) {
-          controller.videoPlayerHelper.playVideo();
+    navigation = Get.find<Navigation>();
+    youtubePlayerController = YoutubePlayerController(
+      initialVideoId: controller.trailerKey,
+      flags: const YoutubePlayerFlags(
+        mute: false,
+        autoPlay: true,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+        enableCaption: true,
+      ),
+    )..addListener(listener);
+  }
 
-        }
+  void listener() {
+    if (mounted && !youtubePlayerController.value.isFullScreen) {
+      setState(() {});
+    }
+    if(mounted && youtubePlayerController.value.playerState==PlayerState.ended){
+      navigation.goBack();
+      youtubePlayerController.reset();
 
-          });
-    });
+    }
+  }
 
+  @override
+  void dispose() {
+    youtubePlayerController.dispose();
+    super.dispose();
   }
 
   @override
@@ -37,16 +56,12 @@ class _WatchTrailerScreenState extends State<WatchTrailerScreen> {
     return SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: controller.videoPlayerController.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: controller.videoPlayerController.value.aspectRatio,
-                child: VideoPlayer(controller.videoPlayerController))
-            : const SizedBox());
-  }
-
-  @override
-  void dispose() {
-    controller.videoPlayerHelper.destroyVideoPlayer();
-    super.dispose();
+        child: YoutubePlayer(
+          controller: youtubePlayerController,
+          showVideoProgressIndicator: true,
+          onReady: () {
+            youtubePlayerController.addListener(listener);
+          },
+        ));
   }
 }

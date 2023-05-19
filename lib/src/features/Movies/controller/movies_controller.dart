@@ -58,12 +58,16 @@ class MoviesScreenController extends GetxController {
   RxList<Movie> searchResults = RxList<Movie>([]);
 
   void searchMovie(String searchText) {
+    isFetchingList(true);
     searchResults.clear();
     for (Movie item in moviesList) {
       if (item.title!.toLowerCase().contains(searchText.toLowerCase())) {
         searchResults.value.add(item);
       }
+
     }
+    isFetchingList(false);
+
   }
 
   bool searchingVisible(searchText) =>
