@@ -239,9 +239,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                       controller.updateSearchingMovie(SearchMovie.disabled);
                     },
                     icon: SvgPicture.asset(SvgAssetsPaths.closeSvg)),
-                prefixIcon: IconButton(
-                    onPressed: () => textEditingController.clear(),
-                    icon: SvgPicture.asset(SvgAssetsPaths.searchSvg)),
+                prefixIcon:  SvgPicture.asset(SvgAssetsPaths.searchSvg),
                 hintText: AppStrings.searchHint,
                 hintStyle: TextStyle(
                     fontSize: 14.sp,
